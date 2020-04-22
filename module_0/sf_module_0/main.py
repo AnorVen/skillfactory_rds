@@ -4,17 +4,23 @@ count = 0  # счетчик попыток
 number = np.random.randint(1, 101)  # загадали число
 print("Загадано число от 1 до 100")
 
-def game_core_v2(number):
+def game_core_v3(number):
     '''Сначала устанавливаем любое random число, а потом уменьшаем или увеличиваем его в зависимости от того, больше оно или меньше нужного.
        Функция принимает загаданное число и возвращает число попыток'''
     count = 1
-    predict = np.random.randint(1,101)
+    allAnsvers = [x for x in range(1, 101)]
+    a = int(len(allAnsvers) / 2) - 1
+    predict = allAnsvers[a]
+    tempList = allAnsvers
     while number != predict:
-        count+=1
-        if number > predict:
-            predict += 1
-        elif number < predict:
-            predict -= 1
+        count += 1
+        if predict > number:
+            tempList = tempList[0: a]
+            a = int(len(tempList) / 2) - 1
+        elif predict < number:
+            tempList = tempList[a:]
+            a = int(len(tempList) / 2)
+        predict = tempList[a]
     return(count) # выход из цикла, если угадали
 
 def score_game(game_core):
@@ -30,4 +36,4 @@ def score_game(game_core):
 
 
 # запускаем
-score_game(game_core_v2)
+score_game(game_core_v3)
